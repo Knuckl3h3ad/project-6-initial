@@ -32,11 +32,11 @@ public class Entry implements Comparable<Entry> {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Entry entry = (Entry) o;
-        return Objects.equals(word, entry.word) && Objects.equals(definition, entry.definition);
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Entry entry = (Entry) obj;
+        return word.equals(entry.word) && Objects.equals(definition, entry.definition);
     }
 
     @Override
@@ -52,10 +52,10 @@ public class Entry implements Comparable<Entry> {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Entry{");
-        sb.append("word='")
+        sb.append("word ='")
           .append(word)
           .append('\'');
-        sb.append(", definition='")
+        sb.append(", definition ='")
           .append(definition)
           .append('\'');
         sb.append('}');

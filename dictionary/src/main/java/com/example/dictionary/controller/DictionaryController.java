@@ -1,5 +1,6 @@
 package com.example.dictionary.controller;
 
+import com.example.dictionary.exception.WordNotFoundException;
 import com.example.dictionary.model.Entry;
 import com.example.dictionary.service.DictionaryService;
 import org.slf4j.Logger;
@@ -22,10 +23,11 @@ public class DictionaryController {
     }
 
     @GetMapping("/getWord/{word}")
-    public Entry getWord(@PathVariable String word) {
+    public Entry getWord(@PathVariable String word) throws WordNotFoundException {
 
         StopWatch sw = new StopWatch();
         sw.start();
+
         Entry entry = this.dictionaryService.getWord(word);
         sw.stop();
 
@@ -82,23 +84,23 @@ public class DictionaryController {
         return entries;
     }
 
-    @GetMapping("/getWordsThatContainConsecutiveLetters")
-    public List<Entry> getWordsThatContainConsecutiveLetters() {
+    @GetMapping("/getWordsEndingWith/{value}")
+    public List<Entry> getWordsEndingWith(@PathVariable String value) {
 
         StopWatch sw = new StopWatch();
         sw.start();
-        List<Entry> entries = this.dictionaryService.getWordsThatContainConsecutiveDoubleLetters();
+        List<Entry> entries = this.dictionaryService.getWordsEndingWith(value);
         sw.stop();
 
         long nanoSeconds = sw.getLastTaskTimeNanos();
-        String message = new StringBuilder().append("Retrieved entries for words containing")
-                                            .append(" consecutive double letters,")
-                                            .append(" containing ")
-                                            .append(entries.size())
-                                            .append(" entries in ")
-                                            .append(nanoSeconds / 1000000.0)
-                                            .append("ms")
-                                            .toString();
+        String message = new StringBuilder().append("Retrieved entries for words ending with [")
+                .append(value)
+                .append("] containing ")
+                .append(entries.size())
+                .append(" entries in ")
+                .append(nanoSeconds / 1000000.0)
+                .append("ms")
+                .toString();
         logger.info(message);
         return entries;
     }
