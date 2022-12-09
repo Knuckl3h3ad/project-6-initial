@@ -3,8 +3,12 @@ package com.example.dictionary.service;
 import com.example.dictionary.exception.WordNotFoundException;
 import com.example.dictionary.model.Entry;
 import com.example.dictionary.reference.DictionaryReference;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StopWatch;
+import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -28,25 +32,25 @@ public class DictionaryService {
     public List<Entry> getWordsStartingWith(final String value) {
 
         return DictionaryReference.getDictionary()
-                                  .entrySet()
-                                  .stream()
-                                  .filter(entry -> entry.getKey()
-                                                        .startsWith(value))
-                                  .sorted(Map.Entry.comparingByKey(Comparator.naturalOrder()))
-                                  .map(entry -> new Entry(entry.getKey(), entry.getValue()))
-                                  .collect(Collectors.toList());
+                .entrySet()
+                .stream()
+                .filter(entry -> entry.getKey()
+                        .startsWith(value))
+                .sorted(Map.Entry.comparingByKey(Comparator.naturalOrder()))
+                .map(entry -> new Entry(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toList());
     }
 
     public List<Entry> getWordsThatContain(final String value) {
 
         return DictionaryReference.getDictionary()
-                                  .entrySet()
-                                  .stream()
-                                  .filter(entry -> entry.getKey()
-                                                        .contains(value))
-                                  .sorted(Map.Entry.comparingByKey(Comparator.naturalOrder()))
-                                  .map(entry -> new Entry(entry.getKey(), entry.getValue()))
-                                  .collect(Collectors.toList());
+                .entrySet()
+                .stream()
+                .filter(entry -> entry.getKey()
+                        .contains(value))
+                .sorted(Map.Entry.comparingByKey(Comparator.naturalOrder()))
+                .map(entry -> new Entry(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toList());
     }
 
     public List<Entry> getWordsEndingWith(final String value) {
@@ -56,6 +60,28 @@ public class DictionaryService {
                 .stream()
                 .filter(entry -> entry.getKey()
                         .endsWith(value))
+                .sorted(Map.Entry.comparingByKey(Comparator.naturalOrder()))
+                .map(entry -> new Entry(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toList());
+    }
+
+
+    public List<Entry> getWordsThatContainConsecutiveDoubleLetters() {
+
+        return DictionaryReference.getDictionary()
+                .entrySet()
+                .stream()
+                .filter(entry -> {
+                    String word = entry.getKey();
+                    boolean duplicateConsecutiveLetters = false;
+                    for (int x = 1; x < word.length(); x++) {
+                        if (word.charAt(x) == word.charAt(x - 1)) {
+                            duplicateConsecutiveLetters = true;
+                            break;
+                        }
+                    }
+                    return duplicateConsecutiveLetters;
+                })
                 .sorted(Map.Entry.comparingByKey(Comparator.naturalOrder()))
                 .map(entry -> new Entry(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toList());

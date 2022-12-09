@@ -16,7 +16,7 @@ public class DictionaryApplication {
         AtomicInteger counter = new AtomicInteger(1);
         Arrays.stream(beans)
                 .sorted()
-                .map(name -> counter.getAndIncrement() + ": "  + name)
+                .map(name -> counter.getAndIncrement() + ": " + name)
                 .forEach(System.out::println);
     }
 }

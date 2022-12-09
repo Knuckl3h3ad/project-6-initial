@@ -53,11 +53,11 @@ public class Entry implements Comparable<Entry> {
     public String toString() {
         final StringBuilder sb = new StringBuilder("Entry{");
         sb.append("word ='")
-          .append(word)
-          .append('\'');
+                .append(word)
+                .append('\'');
         sb.append(", definition ='")
-          .append(definition)
-          .append('\'');
+                .append(definition)
+                .append('\'');
         sb.append('}');
         return sb.toString();
     }

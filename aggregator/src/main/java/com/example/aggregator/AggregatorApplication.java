@@ -18,7 +18,7 @@ public class AggregatorApplication {
                 .sorted()
                 .filter(name -> name.toLowerCase()
                         .contains("rest"))
-                .map(name -> counter.getAndIncrement() + ": "  + name)
+                .map(name -> counter.getAndIncrement() + ": " + name)
                 .forEach(System.out::println);
     }
 
